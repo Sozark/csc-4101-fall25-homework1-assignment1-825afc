@@ -3,33 +3,31 @@ class PhoneBook
     @entries = []  # stores hashes like { name:, number:, listed: }
   end
 
-  # Add a new entry; returns the is_listed boolean
+  # Add a new entry; return true if successfully added
   def add(name, number, is_listed = true)
-    entry = { name: name, number: number, listed: is_listed }
-    @entries << entry
-    is_listed
+    @entries << { name: name, number: number, listed: is_listed }
+    true
   end
 
-  # Lookup number by name (only listed numbers)
+  # Lookup number by name (return true if found and listed)
   def lookup(name)
-    entry = @entries.find { |e| e[:name] == name && e[:listed] }
-    entry ? entry[:number] : nil
+    found = @entries.any? { |e| e[:name] == name && e[:listed] }
+    found
   end
 
-  # Lookup name by number (only listed numbers)
+  # Lookup name by number (return true if found and listed)
   def lookupByNum(number)
-    entry = @entries.find { |e| e[:number] == number && e[:listed] }
-    entry ? entry[:name] : nil
+    found = @entries.any? { |e| e[:number] == number && e[:listed] }
+    found
   end
 
-  # Return all names whose numbers start with areacode (listed or not)
+  # Check if any listed name has a number starting with areacode (return true if found)
   def namesByAc(areacode)
-    @entries
-      .select { |e| e[:number].start_with?(areacode) }  # include unlisted
-      .map { |e| e[:name] }
+    found = @entries.any? { |e| e[:number].start_with?(areacode) && e[:listed] }
+    found
   end
 
-  # Show all entries (for testing)
+  # Optional: for testing
   def show
     puts @entries.inspect
   end
@@ -37,11 +35,11 @@ end
 
 # ----- TEST ---- #
 pb = PhoneBook.new
-puts pb.add("Alice", "555-1234")         # => true (listed by default)
-puts pb.add("Bob", "555-5678", false)    # => false
-puts pb.lookup("Alice")                  # => "555-1234"
-puts pb.lookup("Bob")                    # => nil
-puts pb.lookupByNum("555-1234")          # => "Alice"
-puts pb.lookupByNum("555-5678")          # => nil
-puts pb.namesByAc("555")                 # => ["Alice", "Bob"]
+puts pb.add("Alice", "555-1234")         # => true
+puts pb.add("Bob", "555-5678", false)    # => true
+puts pb.lookup("Alice")                  # => true
+puts pb.lookup("Bob")                    # => false
+puts pb.lookupByNum("555-1234")          # => true
+puts pb.lookupByNum("555-5678")          # => false
+puts pb.namesByAc("555")                 # => true
 pb.show

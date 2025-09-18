@@ -31,3 +31,12 @@ def zipHash(arr1, arr2)
   return nil unless arr1.length == arr2.length
   arr1.zip(arr2).to_h
 end
+
+def hashToArray(hash)
+  arr = []
+  hash.each do |k, v|
+    arr << [k, v]   # turn each key/value into a 2-element array
+  end
+  arr
+end
+

@@ -7,9 +7,9 @@ class PhoneBook
   def add(name, number, is_listed = true)
     entry = { name: name, number: number, listed: is_listed }
     @entries << entry
-    true
+    entry
   end
-
+  
   # Lookup number by name
   def lookup(name)
     entry = @entries.find { |e| e[:name] == name && e[:listed] }
@@ -24,8 +24,10 @@ class PhoneBook
 
   # Check if any listed name has a number starting with areacode
   def namesByAc(areacode)
-    @entries
-      .select { |e| e[:number].start_with?(areacode) && e[:listed] }
-      .map { |e| e[:name] }
+    names = @entries
+              .select { |e| e[:number].start_with?(areacode) && e[:listed] }
+              .map { |e| e[:name] }
+    names.empty? ? nil : names
+  end
   end  
 end

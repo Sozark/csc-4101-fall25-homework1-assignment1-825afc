@@ -27,8 +27,9 @@ class PhoneBook
 
   # Return array of names with numbers starting with areacode (listed only)
   def namesByAc(areacode)
-    names = @entries.select { |e| e[:number].start_with?(areacode) }.map { |e| e[:name] }
-    names.empty? ? nil : names
+    @entries
+      .select { |e| e[:number].start_with?(areacode) }
+      .map { |e| e[:name] }
   end
 
   # Optional: for testing

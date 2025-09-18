@@ -1,4 +1,3 @@
-# Fibonacci sequence: return an array of the first n Fibonacci numbers
 def fib(n)
   return [] if n <= 0
   return [0] if n == 1
@@ -11,7 +10,6 @@ def fib(n)
   seq
 end
 
-# Frequency: return the most frequent character in a string
 def freq(str)
   return "" if str.empty?
   counts = Hash.new(0)
@@ -19,20 +17,17 @@ def freq(str)
   counts.max_by { |_, v| v }[0]
 end
 
-# Palindrome check
-def isPalindrome(str)
-  str == str.reverse
+def isPalindrome(n)
+  s = n.to_s
+  s == s.reverse
 end
 
-# nth maximum in an array
-def nthMax(arr, n)
-  return nil if arr.empty? || n <= 0 || n > arr.length
-  arr.uniq.sort.reverse[n - 1]
+def nthmax(n, a)
+  return nil if a.empty? || n < 0 || n >= a.length
+  a.uniq.sort.reverse[n]
 end
 
-# Convert two arrays into a hash, return nil if sizes don’t match
-def zipHash(keys, values)
-  return nil unless keys.length == values.length
-  keys.zip(values).to_h
+def zipHash(arr1, arr2)
+  return nil unless arr1.length == arr2.length
+  arr1.zip(arr2).to_h
 end
-

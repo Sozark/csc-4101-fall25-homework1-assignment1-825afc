@@ -5,7 +5,11 @@ class PhoneBook
 
   # Add a new entry; return true if successfully added
   def add(name, number, is_listed = true)
-    @entries << { name: name, number: number, listed: is_listed }
+    exists = @entries.any? { |e| e[:name] == name && e[:number] == number }
+    return false if exists
+  
+    entry = { name: name, number: number, listed: is_listed }
+    @entries << entry
     true
   end
 
@@ -23,9 +27,8 @@ class PhoneBook
 
   # Return array of names with numbers starting with areacode (listed only)
   def namesByAc(areacode)
-    result = @entries.select { |e| e[:number].start_with?(areacode) && e[:listed] }
-                     .map { |e| e[:name] }
-    result.empty? ? nil : result
+    names = @entries.select { |e| e[:number].start_with?(areacode) }.map { |e| e[:name] }
+    names.empty? ? nil : names
   end
 
   # Optional: for testing

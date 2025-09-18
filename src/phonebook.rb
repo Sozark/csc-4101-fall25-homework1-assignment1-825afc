@@ -9,22 +9,23 @@ class PhoneBook
     true
   end
 
-  # Lookup number by name (return true if found and listed)
+  # Lookup number by name
   def lookup(name)
-    found = @entries.any? { |e| e[:name] == name && e[:listed] }
-    found
+    entry = @entries.find { |e| e[:name] == name && e[:listed] }
+    entry ? entry[:number] : nil
   end
 
-  # Lookup name by number (return true if found and listed)
+  # Lookup name by number
   def lookupByNum(number)
-    found = @entries.any? { |e| e[:number] == number && e[:listed] }
-    found
+    entry = @entries.find { |e| e[:number] == number && e[:listed] }
+    entry ? entry[:name] : nil
   end
 
-  # Check if any listed name has a number starting with areacode (return true if found)
+  # Return array of names with numbers starting with areacode (listed only)
   def namesByAc(areacode)
-    found = @entries.any? { |e| e[:number].start_with?(areacode) && e[:listed] }
-    found
+    result = @entries.select { |e| e[:number].start_with?(areacode) && e[:listed] }
+                     .map { |e| e[:name] }
+    result.empty? ? nil : result
   end
 
   # Optional: for testing
@@ -35,11 +36,11 @@ end
 
 # ----- TEST ---- #
 pb = PhoneBook.new
-puts pb.add("Alice", "555-1234")         # => true
-puts pb.add("Bob", "555-5678", false)    # => true
-puts pb.lookup("Alice")                  # => true
-puts pb.lookup("Bob")                    # => false
-puts pb.lookupByNum("555-1234")          # => true
-puts pb.lookupByNum("555-5678")          # => false
-puts pb.namesByAc("555")                 # => true
+puts pb.add("Alice", "555-1234")           # => true
+puts pb.add("Bob", "555-5678", false)      # => true
+puts pb.lookup("Alice")                     # => "555-1234"
+puts pb.lookup("Bob")                       # => nil
+puts pb.lookupByNum("555-1234")             # => "Alice"
+puts pb.lookupByNum("555-5678")             # => nil
+puts pb.namesByAc("555")                    # => ["Alice"]
 pb.show

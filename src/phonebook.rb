@@ -12,16 +12,20 @@ class PhoneBook
 
   # Lookup number by name
   def lookup(name)
-    @entries.any? { |e| e[:name] == name && e[:listed] }
+    entry = @entries.find { |e| e[:name] == name && e[:listed] }
+    entry ? entry[:number] : nil
   end
 
   # Lookup name by number
   def lookupByNum(number)
-    @entries.any? { |e| e[:number] == number && e[:listed] }
+    entry = @entries.find { |e| e[:number] == number && e[:listed] }
+    entry ? entry[:name] : nil
   end
 
   # Check if any listed name has a number starting with areacode
   def namesByAc(areacode)
-    @entries.any? { |e| e[:number].start_with?(areacode) && e[:listed] }
-  end
+    @entries
+      .select { |e| e[:number].start_with?(areacode) && e[:listed] }
+      .map { |e| e[:name] }
+  end  
 end

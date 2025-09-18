@@ -40,9 +40,9 @@ end
 
 # ----- TEST ---- #
 pb = PhoneBook.new
-puts pb.add("Amy", "555-1234")           # => true
+puts pb.add("Amanda", "555-1234")           # => true
 puts pb.add("Bob", "555-5678", false)      # => true
-puts pb.lookup("Amy")                     # => "555-1234"
+puts pb.lookup("Amanda")                     # => "555-1234"
 puts pb.lookup("Bob")                       # => nil
 puts pb.lookupByNum("555-1234")             # => "Alice"
 puts pb.lookupByNum("555-5678")             # => nil

@@ -1,52 +1,38 @@
+# Fibonacci sequence: return an array of the first n Fibonacci numbers
 def fib(n)
-    if n < 2
-      return n 
-    else
-      return fib(n - 1) + fib(n - 2)
-    end
+  return [] if n <= 0
+  return [0] if n == 1
+  return [0, 1] if n == 2
+
+  seq = [0, 1]
+  (n - 2).times do
+    seq << seq[-1] + seq[-2]
   end
-  # --- Tests ---
-  (0...10).each do |i|
-    puts "fib(#{i}) = #{fib(i)}"
-
-  end
-  
-def isPalindrome?(n)                            # This method is to figure out if a statement is a Palindrome or not 
-    n == n.reverse                              # This is a method that's attached to n and will see if any values are reversed
+  seq
 end
 
-puts isPalindrome?("racecar")
-puts isPalindrome?("hello")
-
-def nthmax(n, a)                                # a is the array you're iterating and n is the integer. 
-    sorted = a.sort.reverse            
-    return sorted[n - 1]
+# Frequency: return the most frequent character in a string
+def freq(str)
+  return "" if str.empty?
+  counts = Hash.new(0)
+  str.each_char { |ch| counts[ch] += 1 }
+  counts.max_by { |_, v| v }[0]
 end
 
-def freq(s)                                     # This method is for counting how many times a character appears
-    counts = Hash.new(0)                        # Creates a hash with a value of 0
-    s.each_char { |c| counts[c] += 1 }          # Increments a count for each character that appears 
-    return counts                               # returns the hash
+# Palindrome check
+def isPalindrome(str)
+  str == str.reverse
 end
-# -- TESTS --
-puts freq("Hello")
 
-def zipHash(arr1, arr2)                          # you're combining two arrays of the same length to create one singular hash
-    hash = {}
-    arr1.each_with_index do |key, i|             # Loop over each element of arr1 along with its index
-        value = arr2[i]                          # Find the corresponding value in arr2 at the same index
-        hash[key] = value                        # Assign the key-value pair to the hash
-    end 
-    hash                                         # Returns the completed hash
+# nth maximum in an array
+def nthMax(arr, n)
+  return nil if arr.empty? || n <= 0 || n > arr.length
+  arr.uniq.sort.reverse[n - 1]
 end
-# -- TEST -- 
-keys = ["a", "b", "c"]
-values = [1, 2, 3]
-puts zipHash(keys, values)                       # Converts a hash into an array of [key,value] pairs
 
-def hashToArray(hash)                            # 
-    hash.to_a                                    # Ruby’s built-in method for converting hashes to arrays
+# Convert two arrays into a hash, return nil if sizes don’t match
+def zipHash(keys, values)
+  return nil unless keys.length == values.length
+  keys.zip(values).to_h
 end
-# -- TEST -- 
-my_hash = {"a" => 1, "b" => 2, "c" => 3}
-puts hashToArray(my_hash).inspect
+
